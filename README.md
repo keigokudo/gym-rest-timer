@@ -2,6 +2,8 @@
 
 A minimal rest timer for strength training.
 
+[Open the live app](https://keigokudo.github.io/gym-rest-timer/)
+
 Gym Rest Timer is designed for one simple job: start a rest period quickly between sets without navigating menus, creating an account, or entering the same duration repeatedly.
 
 ## Features
