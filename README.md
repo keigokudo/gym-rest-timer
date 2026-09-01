@@ -1,75 +1,63 @@
-# React + TypeScript + Vite
+# 003 - Gym Rest Timer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal rest timer for strength training.
 
-Currently, two official plugins are available:
+Gym Rest Timer is designed for one simple job: start a rest period quickly between sets without navigating menus, creating an account, or entering the same duration repeatedly.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- One-tap 60, 90, 120, and 180 second rest timers
+- Custom rest duration
+- Pause and resume
+- Reset the current timer
+- Track completed sets
+- Clear visual countdown progress
+- Responsive layout for desktop and mobile
+- No account or setup required
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Why I Built It
 
-## Expanding the ESLint configuration
+Most timer apps include more features than I need during a workout.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+This project focuses on the few interactions that matter between sets: choose a rest time, check the remaining time at a glance, and get back to training.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+The interface is intentionally dark, high-contrast, and distraction-free so it can be checked quickly in a gym environment.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React
+- TypeScript
+- Vite
+- CSS
 
-```
+## Getting Started
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+Install the dependencies:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+    npm install
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Start the development server:
 
-```
+    npm run dev
+
+Then open the local URL shown by Vite in your browser.
+
+## Production Build
+
+Create a production build:
+
+    npm run build
+
+Preview the production build locally:
+
+    npm run preview
+
+## Design Principles
+
+The UI is built around a few simple principles:
+
+- Fast interaction between sets
+- Large, readable timer display
+- Minimal visual noise
+- High contrast in bright or dark gym environments
+- Comfortable use on a phone
