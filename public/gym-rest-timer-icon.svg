@@ -1,0 +1,22 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Gym Rest Timer Icon</title>
+  <desc id="desc">A minimal barbell and timer icon designed for a gym training web app.</desc>
+
+  <!-- Rounded app tile -->
+  <rect x="4" y="4" width="56" height="56" rx="15" fill="#111214"/>
+
+  <!-- Timer crown -->
+  <path d="M27 14H37" stroke="#F5F5F7" stroke-width="4" stroke-linecap="round"/>
+  <path d="M32 14V18" stroke="#F5F5F7" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Timer body -->
+  <circle cx="32" cy="31" r="11" stroke="#F5F5F7" stroke-width="4"/>
+  <path d="M32 31L37 26" stroke="#F5F5F7" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Barbell -->
+  <path d="M17 45H47" stroke="#F5F5F7" stroke-width="4" stroke-linecap="round"/>
+  <rect x="12" y="39" width="5" height="12" rx="2.5" fill="#F5F5F7"/>
+  <rect x="18" y="41" width="4" height="8" rx="2" fill="#F5F5F7"/>
+  <rect x="42" y="41" width="4" height="8" rx="2" fill="#F5F5F7"/>
+  <rect x="47" y="39" width="5" height="12" rx="2.5" fill="#F5F5F7"/>
+</svg>

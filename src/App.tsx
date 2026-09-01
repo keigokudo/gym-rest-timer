@@ -1,122 +1,140 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import { useRestTimer } from "./hooks/useRestTimer";
+import { Header } from "./components/Header";
+import { TimerDisplay } from "./components/TimerDisplay";
+import { PresetGrid } from "./components/PresetGrid";
+import { CustomTimer } from "./components/CustomTimer";
+import { Controls } from "./components/Controls";
+import "./App.css";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [isCustomOpen, setIsCustomOpen] = useState(false);
+
+  const {
+    status,
+    totalDuration,
+    remainingSeconds,
+    progress,
+    setsDone,
+    activePresetSeconds,
+    startTimer,
+    togglePauseResume,
+    resetTimer,
+    resetSets,
+  } = useRestTimer({
+    initialDuration: 90,
+    completionDurationMs: 2500,
+  });
+
+  // Handle keyboard shortcuts on desktop
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger shortcuts if user is typing in an input
+      if (["INPUT", "TEXTAREA"].includes((e.target as HTMLElement)?.tagName)) {
+        return;
+      }
+
+      switch (e.key) {
+        case " ":
+          e.preventDefault();
+          togglePauseResume();
+          break;
+        case "1":
+          startTimer(60);
+          break;
+        case "2":
+          startTimer(90);
+          break;
+        case "3":
+          startTimer(120);
+          break;
+        case "4":
+          startTimer(180);
+          break;
+        case "r":
+        case "R":
+          resetTimer();
+          break;
+        case "c":
+        case "C":
+          setIsCustomOpen((prev) => !prev);
+          break;
+        default:
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [togglePauseResume, startTimer, resetTimer]);
+
+  const handleSelectPreset = (seconds: number) => {
+    startTimer(seconds);
+    setIsCustomOpen(false);
+  };
+
+  const handleStartCustom = (seconds: number) => {
+    startTimer(seconds);
+  };
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <div className={`app-root status-${status.toLowerCase()}`}>
+      <div className="app-shell">
+        {/* Top Header Bar */}
+        <Header setsDone={setsDone} onResetSets={resetSets} />
 
-      <div className="ticks"></div>
+        {/* Responsive Content Grid */}
+        <main className="app-main-layout">
+          {/* Left Column (Desktop) / Central Hero (Mobile) */}
+          <section className="timer-column" aria-label="Timer Display Section">
+            <TimerDisplay
+              status={status}
+              remainingSeconds={remainingSeconds}
+              totalDuration={totalDuration}
+              progress={progress}
+            />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+            {/* Desktop Set Counter Display in Left Column */}
+            <div className="desktop-sets-summary" aria-hidden="true">
+              <span className="summary-label">SETS COMPLETED</span>
+              <span className="summary-value">{setsDone}</span>
+            </div>
+          </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+          {/* Right Column (Desktop) / Action Deck (Mobile) */}
+          <section
+            className="controls-column"
+            aria-label="Timer Controls and Presets"
+          >
+            {/* 2x2 Preset Buttons Grid */}
+            <PresetGrid
+              onSelectPreset={handleSelectPreset}
+              activePresetSeconds={activePresetSeconds}
+              status={status}
+            />
+
+            {/* Custom Timer Input Deck */}
+            <CustomTimer
+              isOpen={isCustomOpen}
+              onToggleOpen={() => setIsCustomOpen((prev) => !prev)}
+              onClose={() => setIsCustomOpen(false)}
+              onStartCustom={handleStartCustom}
+            />
+
+            {/* Secondary Controls (Pause/Resume, Reset Timer) */}
+            <Controls
+              status={status}
+              onTogglePauseResume={togglePauseResume}
+              onResetTimer={resetTimer}
+            />
+          </section>
+        </main>
+
+        {/* Footer / Subtle Precision Status */}
+        <footer className="app-footer">
+          <span className="footer-system-mark">REST TIMER</span>
+        </footer>
+      </div>
+    </div>
+  );
 }
-
-export default App
